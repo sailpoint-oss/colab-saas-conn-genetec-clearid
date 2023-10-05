@@ -1,0 +1,317 @@
+{
+    "name": "ClearID",
+    "commands": [
+        "std:account:create",
+        "std:account:enable",
+        "std:account:disable",
+        "std:account:list",
+        "std:account:read",
+        "std:account:update",
+        "std:entitlement:list",
+        "std:entitlement:read",
+        "std:test-connection"
+    ],
+    "sourceConfig": [
+        {
+            "type": "section",
+            "sectionTitle": "Tenant details",
+            "sectionHelpMessage": "Add your connection details here",
+            "items": [
+                {
+                    "key": "environment",
+                    "label": "Environment",
+                    "type": "select",
+                    "required": true,
+                    "options": [
+                        {
+                            "label": "Production",
+                            "value": "production"
+                        },
+                        {
+                            "label": "Europe",
+                            "value": "europe"
+                        },
+                        {
+                            "label": "Development",
+                            "value": "development"
+                        }
+                    ]
+                },
+                {
+                    "key": "accountId",
+                    "label": "Account ID",
+                    "type": "text",
+                    "required": true
+                },
+                {
+                    "key": "clientId",
+                    "label": "Client ID",
+                    "type": "text",
+                    "required": true
+                },
+                {
+                    "key": "clientSecret",
+                    "label": "Client Secret",
+                    "type": "secret",
+                    "required": true
+                },
+                {
+                    "key": "ignoreSSL",
+                    "label": "Ignore SSL errors?",
+                    "type": "checkbox",
+                    "required": true
+                }
+            ]
+        },
+        {
+            "type": "section",
+            "sectionTitle": "Provisioning attributes configuration",
+            "sectionHelpMessage": "Define how you want to manage provisioning attributes",
+            "items": [
+                {
+                    "key": "provisioningAttributes",
+                    "label": "Provisioning attributes to include as entitlements",
+                    "type": "list",
+                    "required": false
+                },
+                {
+                    "key": "includeAllProvisioningAttributes",
+                    "label": "Include all existing provisioning attributes as entitlements?",
+                    "type": "checkbox",
+                    "required": false
+                }
+            ]
+        }
+    ],
+    "accountSchema": {
+        "displayAttribute": "displayName",
+        "identityAttribute": "identityId",
+        "groupAttribute": "roles",
+        "attributes": [
+            {
+                "name": "identityId",
+                "type": "string",
+                "description": ""
+            },
+            {
+                "name": "firstName",
+                "type": "string",
+                "description": ""
+            },
+            {
+                "name": "lastName",
+                "type": "string",
+                "description": ""
+            },
+            {
+                "name": "displayName",
+                "type": "string",
+                "description": ""
+            },
+            {
+                "name": "status",
+                "type": "string",
+                "description": ""
+            },
+            {
+                "name": "email",
+                "type": "string",
+                "description": ""
+            },
+            {
+                "name": "description",
+                "type": "string",
+                "description": ""
+            },
+            {
+                "name": "privateData.secondaryEmail",
+                "type": "string",
+                "description": ""
+            },
+            {
+                "name": "countryCode",
+                "type": "string",
+                "description": ""
+            },
+            {
+                "name": "privateData.employeeNumber",
+                "type": "string",
+                "description": ""
+            },
+            {
+                "name": "companyData.departmentName",
+                "type": "string",
+                "description": ""
+            },
+            {
+                "name": "companyData.jobTitle",
+                "type": "string",
+                "description": ""
+            },
+            {
+                "name": "companyData.companyName",
+                "type": "string",
+                "description": ""
+            },
+            {
+                "name": "systemData.externalId",
+                "type": "string",
+                "description": ""
+            },
+            {
+                "name": "approverId",
+                "type": "string",
+                "description": "Approver or supervisor (only supports one)"
+            },
+            {
+                "name": "provisioningAttributes",
+                "type": "string",
+                "description": "",
+                "multi": true
+            },
+            {
+                "name": "roles",
+                "type": "string",
+                "description": "",
+                "entitlement": true,
+                "managed": true,
+                "multi": true
+            }
+        ]
+    },
+    "entitlementSchemas": [
+        {
+            "type": "group",
+            "identityAttribute": "id",
+            "displayAttribute": "name",
+            "attributes": [
+                {
+                    "name": "id",
+                    "type": "string",
+                    "description": ""
+                },
+                {
+                    "name": "name",
+                    "type": "string",
+                    "description": ""
+                },
+                {
+                    "name": "description",
+                    "type": "string",
+                    "description": ""
+                },
+                {
+                    "name": "status",
+                    "type": "string",
+                    "description": ""
+                },
+                {
+                    "name": "type",
+                    "type": "string",
+                    "description": "",
+                    "multi": true
+                }
+            ]
+        }
+    ],
+    "accountCreateTemplate": {
+        "fields": [
+            {
+                "key": "systemData.externalId",
+                "label": "systemData.externalId",
+                "type": "string",
+                "required": false,
+                "initialValue": {
+                    "type": "identityAttribute",
+                    "attributes": {
+                        "name": "uid"
+                    }
+                }
+            },
+            {
+                "key": "firstName",
+                "label": "firstName",
+                "type": "string",
+                "required": false,
+                "initialValue": {
+                    "type": "identityAttribute",
+                    "attributes": {
+                        "name": "firstname"
+                    }
+                }
+            },
+            {
+                "key": "lastName",
+                "label": "lastName",
+                "type": "string",
+                "required": false,
+                "initialValue": {
+                    "type": "identityAttribute",
+                    "attributes": {
+                        "name": "lastname"
+                    }
+                }
+            },
+            {
+                "key": "displayName",
+                "label": "displayName",
+                "type": "string",
+                "required": true,
+                "initialValue": {
+                    "type": "identityAttribute",
+                    "attributes": {
+                        "name": "displayName"
+                    }
+                }
+            },
+            {
+                "key": "email",
+                "label": "email",
+                "type": "string",
+                "required": true,
+                "initialValue": {
+                    "type": "identityAttribute",
+                    "attributes": {
+                        "name": "email"
+                    }
+                }
+            },
+            {
+                "key": "approverId",
+                "label": "approverId",
+                "type": "string",
+                "required": false,
+                "initialValue": {
+                    "type": "static",
+                    "attributes": {
+                        "value": "USE THE PROVIDED TRANSFORM AND MAP TO IDENTITY ATTRIBUTE"
+                    }
+                }
+            },
+            {
+                "key": "countryCode",
+                "label": "countryCode",
+                "type": "string",
+                "required": true,
+                "initialValue": {
+                    "type": "static",
+                    "attributes": {
+                        "value": "USA"
+                    }
+                }
+            },
+            {
+                "key": "status",
+                "label": "status",
+                "type": "string",
+                "required": true,
+                "initialValue": {
+                    "type": "static",
+                    "attributes": {
+                        "value": "Active"
+                    }
+                }
+            }
+        ]
+    }
+}

@@ -1,0 +1,7 @@
+{
+    "name": "ClearID Manager ID",
+    "type": "static",
+    "attributes": {
+        "value": "$identity.getManager().getLinksByAppIdOrName(\"eb73d742ddf54e7f9e009b48389b6dd5\",null).get(0).getNativeIdentity()"
+    }
+}
