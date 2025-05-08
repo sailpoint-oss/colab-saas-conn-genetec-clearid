@@ -23,6 +23,8 @@ import {
     StdAccountEnableOutput,
     StdAccountEnableInput,
     AttributeChange,
+    StdTestConnectionInput,
+    StdAccountListInput,
 } from '@sailpoint/connector-sdk'
 import { HTTPClient } from './http-client'
 import { Account } from './model/account'
@@ -173,16 +175,18 @@ export const connector = async () => {
     }
 
     return createConnector()
-        .stdTestConnection(async (context: Context, input: undefined, res: Response<StdTestConnectionOutput>) => {
-            logger.info('std:test-connection')
-            const response: AxiosResponse = await client.testConnection()
-            if (response.status != 200) {
-                throw new ConnectorError('Unable to connect to ClearID')
-            } else {
-                res.send({})
+        .stdTestConnection(
+            async (context: Context, input: StdTestConnectionInput, res: Response<StdTestConnectionOutput>) => {
+                logger.info('std:test-connection')
+                const response: AxiosResponse = await client.testConnection()
+                if (response.status != 200) {
+                    throw new ConnectorError('Unable to connect to ClearID')
+                } else {
+                    res.send({})
+                }
             }
-        })
-        .stdAccountList(async (context: Context, input: undefined, res: Response<StdAccountListOutput>) => {
+        )
+        .stdAccountList(async (context: Context, input: StdAccountListInput, res: Response<StdAccountListOutput>) => {
             logger.info('std:account:list')
             const response: AxiosResponse = await client.getAccounts()
             for (const acc of response.data.filter((x: { isDeleted: any }) => !x.isDeleted)) {
