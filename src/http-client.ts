@@ -1,7 +1,4 @@
-import { ConnectorError, StdTestConnectionOutput } from '@sailpoint/connector-sdk'
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
-import { Group } from './model/group'
-import { readConfig } from '@sailpoint/connector-sdk'
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 
 const envMap: { [x: string]: string } = {
     production: '',
@@ -210,7 +207,7 @@ export class HTTPClient {
         return response
     }
 
-    async removeUserRole(userId: string, roleId: string): Promise<AxiosResponse> {
+    async removeUserRole(roleId: string, userId: string): Promise<AxiosResponse> {
         const accessToken = await this.getAccessToken()
 
         let request: AxiosRequestConfig = {

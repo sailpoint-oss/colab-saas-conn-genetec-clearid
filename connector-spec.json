@@ -13,72 +13,78 @@
     ],
     "sourceConfig": [
         {
-            "type": "section",
-            "sectionTitle": "Tenant details",
-            "sectionHelpMessage": "Add your connection details here",
+            "type": "menu",
+            "label": "Configuration",
             "items": [
                 {
-                    "key": "environment",
-                    "label": "Environment",
-                    "type": "select",
-                    "required": true,
-                    "options": [
+                    "type": "section",
+                    "sectionTitle": "Tenant details",
+                    "sectionHelpMessage": "Add your connection details here",
+                    "items": [
                         {
-                            "label": "Production",
-                            "value": "production"
+                            "key": "environment",
+                            "label": "Environment",
+                            "type": "select",
+                            "required": true,
+                            "options": [
+                                {
+                                    "label": "Production",
+                                    "value": "production"
+                                },
+                                {
+                                    "label": "Europe",
+                                    "value": "europe"
+                                },
+                                {
+                                    "label": "Development",
+                                    "value": "development"
+                                }
+                            ]
                         },
                         {
-                            "label": "Europe",
-                            "value": "europe"
+                            "key": "accountId",
+                            "label": "Account ID",
+                            "type": "text",
+                            "required": true
                         },
                         {
-                            "label": "Development",
-                            "value": "development"
+                            "key": "clientId",
+                            "label": "Client ID",
+                            "type": "text",
+                            "required": true
+                        },
+                        {
+                            "key": "clientSecret",
+                            "label": "Client Secret",
+                            "type": "secret",
+                            "required": true
+                        },
+                        {
+                            "key": "ignoreSSL",
+                            "label": "Ignore SSL errors?",
+                            "type": "checkbox",
+                            "required": true
                         }
                     ]
                 },
                 {
-                    "key": "accountId",
-                    "label": "Account ID",
-                    "type": "text",
-                    "required": true
-                },
-                {
-                    "key": "clientId",
-                    "label": "Client ID",
-                    "type": "text",
-                    "required": true
-                },
-                {
-                    "key": "clientSecret",
-                    "label": "Client Secret",
-                    "type": "secret",
-                    "required": true
-                },
-                {
-                    "key": "ignoreSSL",
-                    "label": "Ignore SSL errors?",
-                    "type": "checkbox",
-                    "required": true
-                }
-            ]
-        },
-        {
-            "type": "section",
-            "sectionTitle": "Provisioning attributes configuration",
-            "sectionHelpMessage": "Define how you want to manage provisioning attributes",
-            "items": [
-                {
-                    "key": "provisioningAttributes",
-                    "label": "Provisioning attributes to include as entitlements",
-                    "type": "list",
-                    "required": false
-                },
-                {
-                    "key": "includeAllProvisioningAttributes",
-                    "label": "Include all existing provisioning attributes as entitlements?",
-                    "type": "checkbox",
-                    "required": false
+                    "type": "section",
+                    "sectionTitle": "Provisioning attributes configuration",
+                    "sectionHelpMessage": "Define how you want to manage provisioning attributes",
+                    "items": [
+                        {
+                            "key": "provisioningAttributes",
+                            "label": "Provisioning attributes to include as entitlements",
+                            "type": "list",
+                            "required": false
+                        },
+                        {
+                            "key": "includeAllProvisioningAttributes",
+                            "label": "Include all existing provisioning attributes as entitlements?",
+                            "type": "checkbox",
+                            "required": false
+                        }
+                    ]
                 }
             ]
         }
