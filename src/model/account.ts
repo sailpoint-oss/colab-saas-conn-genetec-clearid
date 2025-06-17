@@ -1,11 +1,11 @@
 import { Attributes, StdAccountReadOutput } from '@sailpoint/connector-sdk'
-
-export class Account {
+export class Account implements StdAccountReadOutput {
     identity: string
     uuid: string
+    disabled: boolean
     attributes: Attributes
-
     constructor(object: any) {
+        const status = object.status as string
         this.attributes = {
             identityId: object.identityId,
             firstName: object.firstName,
@@ -28,5 +28,6 @@ export class Account {
         }
         this.identity = this.attributes.identityId as string
         this.uuid = this.attributes.displayName as string
+        this.disabled = status.toLowerCase() === 'inactive'
     }
 }
