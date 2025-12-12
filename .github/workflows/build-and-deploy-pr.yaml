@@ -35,6 +35,7 @@ jobs:
             - name: Extract version from package.json
               run: |
                   echo "PACKAGE_VERSION=$(jq -r .version package.json)" >> $GITHUB_ENV
+                  echo "CONNECTOR_NAME=$(jq -r .name package.json)" >> $GITHUB_ENV
 
             - name: Check version change
               if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -57,5 +58,12 @@ jobs:
                     --title "Release v${{ env.PACKAGE_VERSION }}" \
                     --notes "${{ steps.changes.outputs.log }}" \
                     --target main
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Upload file to release
+              if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+              run: |
+                  gh release upload v${{ env.PACKAGE_VERSION }} ./dist/${{ env.CONNECTOR_NAME }}-${{ env.PACKAGE_VERSION }}.zip --clobber
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
