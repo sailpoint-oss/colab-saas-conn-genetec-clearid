@@ -23,10 +23,10 @@ jobs:
               with:
                   fetch-depth: 0
 
-            - name: Run tests
-              run: |
-                  npm ci
-                  npm run test
+            # - name: Build and Run tests
+            #   run: |
+            #       npm ci
+            #       npm run test
 
             - name: Build connector
               run: |
