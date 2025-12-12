@@ -1,0 +1,61 @@
+name: 'Build and Release'
+
+on:
+    pull_request:
+        branches:
+            - main
+    push:
+        branches:
+            - main
+
+jobs:
+    build_and_release:
+        name: Build and Release
+        runs-on: ubuntu-latest
+        steps:
+            - name: Set up Node
+              uses: actions/setup-node@v3
+              with:
+                  node-version: '18'
+
+            - name: Checkout
+              uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
+
+            - name: Run tests
+              run: |
+                  npm ci
+                  npm run test
+
+            - name: Build connector
+              run: |
+                  npm run pack-zip
+
+            - name: Extract version from package.json
+              run: |
+                  echo "PACKAGE_VERSION=$(jq -r .version package.json)" >> $GITHUB_ENV
+
+            - name: Check version change
+              if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+              run: |
+                  VERSION_CHANGED=$(git diff HEAD^ HEAD -- "package.json" | grep '\"version\"')
+                  if [ -z "$VERSION_CHANGED" ]; then
+                    echo "package.json version has not changed."
+                    exit 1
+                  fi
+
+            - name: Get Commits since last Release
+              if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+              id: changes
+              uses: simbo/changes-since-last-release-action@v1
+
+            - name: Create GitHub release
+              if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+              run: |
+                  gh release create v${{ env.PACKAGE_VERSION }} \
+                    --title "Release v${{ env.PACKAGE_VERSION }}" \
+                    --notes "${{ steps.changes.outputs.log }}" \
+                    --target main
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
