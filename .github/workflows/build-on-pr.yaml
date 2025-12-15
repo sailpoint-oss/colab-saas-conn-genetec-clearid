@@ -8,5 +8,5 @@ on:
 jobs:
     build:
         name: Build on Pull Request
-        uses: ./.github/.github/workflows/colab-saas-connectivity-pr.yml
+        uses: sailpoint-oss/.github/.github/workflows/colab-saas-connectivity-pr.yml@v1.0.0
 
