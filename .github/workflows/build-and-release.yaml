@@ -4,7 +4,7 @@ on:
     push:
         branches:
             - main
-# This workflow will draft a release if the package.json version has been updated.
+# This workflow will draft a release if the package.json version has been updated or there is no release for the current version
 jobs:
     build_and_release:
         name: Build and Release
