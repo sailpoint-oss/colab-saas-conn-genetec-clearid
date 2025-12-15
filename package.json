@@ -1,6 +1,6 @@
 {
     "name": "clearid",
-    "version": "1.2.1",
+    "version": "1.2.2",
     "main": "dist/index.js",
     "scripts": {
         "clean": "shx rm -rf ./dist",
@@ -9,6 +9,7 @@
         "dev": "cross-env NODE_OPTIONS=--enable-source-maps spcx run dist/index.js",
         "debug": "spcx run dist/index.js",
         "prettier": "npx prettier --write .",
+        "test": "jest --coverage --passWithNoTests",
         "prepack-zip": "npm ci && npm run build",
         "pack-zip": "spcx package"
     },
@@ -20,11 +21,28 @@
     },
     "devDependencies": {
         "@vercel/ncc": "^0.38.3",
+        "@types/jest": "^30.0.0",
         "cross-env": "7.0.3",
         "prettier": "^3.5.3",
         "shx": "^0.4.0",
+        "jest": "^30.2.0",
+        "ts-jest": "^29.4.6",
         "typescript": "^5.3.3",
         "typescript-eslint": "^8.33.0"
+    },
+    "jest": {
+        "preset": "ts-jest",
+        "testEnvironment": "node",
+        "clearMocks": true,
+        "collectCoverage": true,
+        "coverageThreshold": {
+            "global": {
+                "statements": 60,
+                "branches": 50,
+                "functions": 40,
+                "lines": 60
+            }
+        }
     },
     "prettier": {
         "printWidth": 120,
