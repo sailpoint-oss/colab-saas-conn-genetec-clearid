@@ -8,5 +8,5 @@ on:
 jobs:
     build_and_release:
         name: Build and Release
-        uses: ./.github/.github/workflows/colab-saas-connectivity-release.yml
+        uses: ./.github/.github/workflows/colab-saas-connectivity-release.yml@v1.0.0
 
